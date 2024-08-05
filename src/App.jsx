@@ -9,6 +9,9 @@ import PrivatePageExample from "./pages/PrivatePageExample";
 
 // components
 import Navbar from "./components/Navbar"
+import Private from "./components/auth/Private";
+import Admin from "./components/auth/Admin";
+import PaginaAdmin from "./pages/PaginaAdmin";
 
 function App() {
 
@@ -23,7 +26,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/private-page-example" element={<PrivatePageExample />} />
+        <Route path="/private-page-example" element={ <Private> <PrivatePageExample /> </Private> } />
+        <Route path="/admin" element={ <Admin> <PaginaAdmin /> </Admin> } />
 
         {/* error FE routes here... */}
 

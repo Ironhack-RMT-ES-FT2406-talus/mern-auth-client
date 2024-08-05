@@ -1,10 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import service from "../../service/service.config";
 
 function Signup() {
+
+  const navigate = useNavigate()
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [ errorMessage, setErrorMessage ] = useState(null)
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handleUsernameChange = (e) => setUsername(e.target.value);
@@ -13,7 +18,32 @@ function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    const newUser = {
+      email,
+      username,
+      password,
+    }
+
     // ... contactar al backend para registrar al usuario aqui
+
+    try {
+      
+      // await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/auth/signup`, newUser)
+      await service.post("/auth/signup", newUser)
+      
+      navigate("/login")
+
+    } catch (error) {
+      console.log(error)
+      if (error.response && error.response.status === 400) {
+        setErrorMessage(error.response.data.errorMessage)
+      } else {
+        // aqui deberiamos hacer un navigate a pagina de error si hay fallo del servidor
+      }
+
+    }
+
+
   };
 
   return (
@@ -54,6 +84,9 @@ function Signup() {
         <br />
 
         <button type="submit">Registrar</button>
+
+        {errorMessage && <p>{errorMessage}</p>}
+
       </form>
       
     </div>
