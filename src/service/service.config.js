@@ -10,6 +10,8 @@ service.interceptors.request.use((config) => {
   if (storedToken) {
     config.headers.authorization = `Bearer ${storedToken}`
   }
+  config.params = {...config.params, API_KEY: 'value'}
+  console.log(config.params)
   return config
 })
 
